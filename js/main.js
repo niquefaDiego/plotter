@@ -55,7 +55,7 @@ function drawPolyline(points) {
   canvasTopRightText.innerHTML = `(${maxy},${maxy})`;
 }
 
-function parse() {
+function parseTextAreaContent() {
   const text = textArea.value;
   const numbers = [];
 
@@ -79,7 +79,6 @@ function parse() {
     points.push([numbers[i], numbers[i+1]]);
   }
 
-  console.log({ points });
   drawPolyline(points);
 }
 
@@ -89,7 +88,12 @@ function setDefaultAreaContent() {
 }
 
 function registerListeners() {
-  drawButton.onclick = parse;
+  drawButton.onclick = parseTextAreaContent;
+  textArea.onkeydown = (ev) => {
+    if (ev.ctrlKey && ev.key === 'Enter') {
+      parseTextAreaContent();
+    }
+  };
 }
 
 setDefaultAreaContent();
