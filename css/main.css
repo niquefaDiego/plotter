@@ -1,0 +1,32 @@
+#canvasContainer {
+  position: relative;
+  display: inline-block;
+  border-style: solid;
+  padding: 0;
+}
+
+#canvasTopRightText {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+}
+
+#canvasBottomLeftText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+}
+
+#editorContainer {
+  float: left;
+}
+
+.floatContainer {
+  position: relative;
+}
+
+body {
+  margin: 0;
+}

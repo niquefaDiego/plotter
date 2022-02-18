@@ -1,7 +1,8 @@
 const drawButton = document.getElementById("drawButton");
-const textArea = document.getElementById("codeTextArea");
+const textArea = document.getElementById("editorTextArea");
 const canvas = document.getElementById("plotCanvas");
-const dimensionsParagraph = document.getElementById("dimensionsParagraph");
+const canvasBottomLeftText = document.getElementById("canvasBottomLeftText");
+const canvasTopRightText = document.getElementById("canvasTopRightText");
 
 function drawPolyline(points) {
   const w = canvas.width;
@@ -50,7 +51,8 @@ function drawPolyline(points) {
     ctx.stroke();
   }
 
-  dimensionsParagraph.innerHTML = `Plotting from (${minx}, ${miny}) to (${maxy},${maxy})`;
+  canvasBottomLeftText.innerHTML = `(${minx}, ${miny})`;
+  canvasTopRightText.innerHTML = `(${maxy},${maxy})`;
 }
 
 function parse() {
