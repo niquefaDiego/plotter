@@ -26,3 +26,12 @@
 .floatContainer {
   position: relative;
 }
+
+.horizontallyCentered {
+  margin: auto;
+  width: clamp(200px, 90%, 1200px);
+}
+
+footer {
+  border-top: thick double green;
+}
