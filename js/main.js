@@ -52,7 +52,7 @@ function drawPolyline(points) {
   }
 
   canvasBottomLeftText.innerHTML = `(${minx}, ${miny})`;
-  canvasTopRightText.innerHTML = `(${maxy},${maxy})`;
+  canvasTopRightText.innerHTML = `(${maxx},${maxy})`;
 }
 
 function parseTextAreaContent() {
