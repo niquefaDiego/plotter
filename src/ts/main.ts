@@ -1,13 +1,19 @@
-const drawButton = document.getElementById("drawButton");
-const textArea = document.getElementById("editorTextArea");
-const canvas = document.getElementById("plotCanvas");
-const canvasBottomLeftText = document.getElementById("canvasBottomLeftText");
-const canvasTopRightText = document.getElementById("canvasTopRightText");
+// import CodeMirror from "codemirror";
 
-function drawPolyline(points) {
+const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
+const textArea: HTMLTextAreaElement = document.getElementById("editorTextArea") as HTMLTextAreaElement;
+const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
+const canvasBottomLeftText: HTMLParagraphElement = document.getElementById("canvasBottomLeftText") as HTMLParagraphElement;
+const canvasTopRightText: HTMLParagraphElement = document.getElementById("canvasTopRightText") as HTMLParagraphElement;
+
+// var editor = CodeMirror.fromTextArea(textArea, {
+//   lineNumbers: true
+// });
+
+function drawPolyline(points: number[][]): void {
   const w = canvas.width;
   const h = canvas.height;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d")!;
   ctx.clearRect(0, 0, w, h);
   
   let minx = points[0][0];
@@ -28,7 +34,7 @@ function drawPolyline(points) {
   miny -= marginy;
   maxy += marginy;
 
-  function scale(x, len, min, max) {
+  function scale(x: number, len: number, min: number, max: number): number {
     return len * (x - min) / (max-min) ;
   }
 
