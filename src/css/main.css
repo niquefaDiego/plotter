@@ -1,8 +1,7 @@
 #canvasContainer {
+  float: left;
   position: relative;
-  display: inline-block;
   border-style: dashed;
-  padding: 0;
 }
 
 #canvasTopRightText {
@@ -20,11 +19,12 @@
 }
 
 #editorContainer {
-  float: left;
+  position: relative;
+  padding: 0;
 }
 
 .floatContainer {
-  position: relative;
+  height: 500px;
 }
 
 .horizontallyCentered {

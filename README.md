@@ -12,6 +12,5 @@ npm i
 
 Run in watch mode:
 ```
-npm run webpack:build
-npm run browsersync:watch
+npm run dev
 ```

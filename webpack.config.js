@@ -4,6 +4,13 @@ module.exports = {
   entry: './src/ts/main.ts',
   devtool: 'inline-source-map',
   mode: 'development',
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 600,
+    ignored: /node_modules/,
+    stdin: true,
+    poll: 1000,
+  },
   module: {
     rules: [
       {
@@ -16,10 +23,19 @@ module.exports = {
         }],
         exclude: '/node_modules'
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.txt$/,
+        use: 'raw-loader',
+        include: '/data'
+      }
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js','css'],
   },
   output: {
     filename: 'bundle.js',

@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "./public/js",
+    "outDir": "./dist",
     "rootDir": "./src/ts",
     "typeRoots": ["node_modules/@types/"]
   },

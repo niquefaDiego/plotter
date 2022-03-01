@@ -1,14 +1,24 @@
-// import CodeMirror from "codemirror";
+import CodeMirror, { Editor } from "codemirror";
+import _ from 'lodash';
+import 'codemirror/lib/codemirror.css';
+// import 'codemirror/theme/monokai.css'; // a dark theme to consider using in the future
+import '../css/main.css';
+
+import 'codemirror/mode/javascript/javascript';
 
 const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
-const textArea: HTMLTextAreaElement = document.getElementById("editorTextArea") as HTMLTextAreaElement;
 const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
 const canvasBottomLeftText: HTMLParagraphElement = document.getElementById("canvasBottomLeftText") as HTMLParagraphElement;
 const canvasTopRightText: HTMLParagraphElement = document.getElementById("canvasTopRightText") as HTMLParagraphElement;
 
-// var editor = CodeMirror.fromTextArea(textArea, {
-//   lineNumbers: true
-// });
+const _textArea: HTMLTextAreaElement = document.getElementById("editorTextArea") as HTMLTextAreaElement;
+const editor = CodeMirror.fromTextArea(_textArea, {
+  lineNumbers: true,
+  mode: "javascript",
+  // theme: "monokai",
+});
+
+console.log({ editor });
 
 function drawPolyline(points: number[][]): void {
   const w = canvas.width;
@@ -62,7 +72,7 @@ function drawPolyline(points: number[][]): void {
 }
 
 function parseTextAreaContent() {
-  const text = textArea.value;
+  const text = editor.getValue();
   const numbers = [];
 
   for (const line of text.split('\n'))
@@ -90,16 +100,14 @@ function parseTextAreaContent() {
 
 function setDefaultAreaContent() {
   const defaultTextAreaValue = "0 0\n0 7\n1 7\n1 6\n2 6\n2 7\n3 7\n3 5\n1 5\n1 4\n4 4\n4 7\n7 7\n7 6\n5 6\n5 5\n7 5\n7 4\n6 4\n6 3\n7 3\n7 1\n6 1\n6 2\n5 2\n5 0\n2 0\n2 1\n4 1\n4 3\n3 3\n3 2\n2 2\n2 3\n1 3\n1 0\n0 0\n";
-  textArea.value = defaultTextAreaValue;  
+  editor.setValue(defaultTextAreaValue);
 }
 
 function registerListeners() {
   drawButton.onclick = parseTextAreaContent;
-  textArea.onkeydown = (ev) => {
-    if (ev.ctrlKey && ev.key === 'Enter') {
-      parseTextAreaContent();
-    }
-  };
+  editor.addKeyMap({ "Ctrl-Enter": function (ed: Editor) {
+    parseTextAreaContent();
+  }});
 }
 
 setDefaultAreaContent();
