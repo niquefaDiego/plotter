@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plotter</title>
+</head>
+<body>
+  <div class="horizontallyCentered">
+    <h1> Plotter </h1>
+
+    <div class="floatContainer">
+  
+      <div id="canvasContainer">
+        <canvas id="plotCanvas" width="500" height="500" >
+        </canvas>
+        <p id="canvasBottomLeftText"></p>
+        <p id="canvasTopRightText"></p>
+      </div>
+    
+      <div id="editorContainer" height="500" width="500">
+        <div>
+          <textarea id="editorTextArea" rows="20" cols="80"> </textarea>
+        </div>
+        <div>
+          <button id="drawButton" type="button">Plot</button>
+        </div>
+      </div>
+    </div>
+
+    <h2> Instructions </h2>
+    <p> Write 2n numbers specifying the n coordinates of a polyline, and plot it by clicking the "Plot" button (or Ctrl+Enter). </p>
+
+    <footer>
+      <p>Author: Diego Niquefa</p>
+      <p><a href="mailto:niquefa.diego@gmail.com">niquefa.diego@gmail.com</a></p>
+    </footer>
+
+  </div>
+  <script type="module" src="dist/bundle.js"> </script>
+</body>
+</html>

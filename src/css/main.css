@@ -1,8 +1,7 @@
 #canvasContainer {
+  float: left;
   position: relative;
-  display: inline-block;
   border-style: dashed;
-  padding: 0;
 }
 
 #canvasTopRightText {
@@ -20,9 +19,19 @@
 }
 
 #editorContainer {
-  float: left;
+  position: relative;
+  padding: 0;
 }
 
 .floatContainer {
-  position: relative;
+  height: 500px;
+}
+
+.horizontallyCentered {
+  margin: auto;
+  width: clamp(200px, 90%, 1200px);
+}
+
+footer {
+  border-top: thick double green;
 }
