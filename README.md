@@ -14,3 +14,7 @@ Run in watch mode:
 ```
 npm run dev
 ```
+
+# Production setup
+
+TODO
