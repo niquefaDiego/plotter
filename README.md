@@ -17,4 +17,7 @@ npm run dev
 
 # Production setup
 
-TODO
+```
+npm i
+npm run build
+```

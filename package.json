@@ -14,14 +14,11 @@
   },
   "homepage": "https://github.com/niquefaDiego/plotter#readme",
   "scripts": {
-    "browsersync:watch": "npx browser-sync start --server 'public' --port 5000 --files 'public' ",
-    "webpack:watch": "npx webpack",
+    "browsersync:watch": "browser-sync start --server 'public' --port 5000 --files 'public' ",
+    "webpack:watch": "webpack --config webpack.dev.js",
     "dev": "run-p webpack:watch browsersync:watch",
-    "compile": "npx tsc --project tsconfig.prod.json",
-    "clean": "rimraf public/js/**/*",
-    "webpack:build": "webpack",
-    "build": "run-s clean compile",
-    "test": "npx jest"
+    "build": "webpack --config webpack.prod.js",
+    "test": "jest"
   },
   "dependencies": {
     "codemirror": "^5.65.1",
@@ -41,6 +38,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",
-    "webpack": "^5.69.1"
+    "webpack": "^5.69.1",
+    "webpack-merge": "^5.8.0"
   }
 }

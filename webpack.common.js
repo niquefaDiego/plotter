@@ -3,7 +3,6 @@ const path = require('path');
 module.exports = {
   entry: './src/ts/main.ts',
   devtool: 'inline-source-map',
-  mode: 'development',
   watch: true,
   watchOptions: {
     aggregateTimeout: 600,
@@ -36,9 +35,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js','css'],
-  },
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public/dist'),
   },
 };
