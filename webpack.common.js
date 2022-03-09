@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/ts/main.ts',
@@ -11,7 +12,7 @@ module.exports = {
           loader: 'ts-loader',
           options: {
               configFile: "tsconfig.dev.json"
-          }
+          },
         }],
         exclude: '/node_modules'
       },
@@ -23,10 +24,13 @@ module.exports = {
         test: /\.txt$/,
         use: 'raw-loader',
         include: '/data'
-      }
+      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js','css'],
+    extensions: ['.ts', '.js','css'],
   },
+  plugins: [new HtmlWebpackPlugin({
+    template: 'src/html/index.html'
+  })],
 };
