@@ -3,13 +3,6 @@ const path = require('path');
 module.exports = {
   entry: './src/ts/main.ts',
   devtool: 'inline-source-map',
-  watch: true,
-  watchOptions: {
-    aggregateTimeout: 600,
-    ignored: /node_modules/,
-    stdin: true,
-    poll: 1000,
-  },
   module: {
     rules: [
       {

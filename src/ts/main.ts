@@ -18,8 +18,6 @@ const editor = CodeMirror.fromTextArea(_textArea, {
   // theme: "monokai",
 });
 
-console.log({ editor });
-
 function drawPolyline(points: number[][]): void {
   const w = canvas.width;
   const h = canvas.height;
