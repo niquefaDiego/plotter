@@ -1,34 +1,37 @@
-import { Editor, fromTextArea } from "codemirror";
 import 'bootstrap';
 import '../scss/main.scss';
+import { addEditorKeyMap, getEditor, getEditorText } from './editor';
+import { Point } from "./geometry/point";
 
 const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
 const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
 const canvasBottomLeftText: HTMLParagraphElement = document.getElementById("canvasBottomLeftText") as HTMLParagraphElement;
 const canvasTopRightText: HTMLParagraphElement = document.getElementById("canvasTopRightText") as HTMLParagraphElement;
 
-const _textArea: HTMLTextAreaElement = document.getElementById("editorTextArea") as HTMLTextAreaElement;
-const editor = fromTextArea(_textArea, {
-  lineNumbers: true,
-  mode: "javascript",
-  // theme: "monokai",
-});
+interface PointMapping {
+  original: Point[];
+  canvas: Point[];
+};
 
-function drawPolyline(points: number[][]): void {
+var pointMapping: PointMapping = { original: [], canvas: [] };
+var focusPoint: Point | null = null;
+var focusPointTag: string = "";
+
+function drawPolyline(points: Point[]): void {
   const w = canvas.width;
   const h = canvas.height;
   const ctx = canvas.getContext("2d")!;
   ctx.clearRect(0, 0, w, h);
   
-  let minx = points[0][0];
-  let maxx = points[0][0];
-  let miny = points[0][1];
-  let maxy = points[0][1];
+  let minx = points[0].x;
+  let maxx = points[0].x;
+  let miny = points[0].y;
+  let maxy = points[0].y;
   for (let i = 1; i < points.length; i++) {
-    minx = Math.min(minx, points[i][0]);
-    maxx = Math.max(maxx, points[i][0]);
-    miny = Math.min(miny, points[i][1]);
-    maxy = Math.max(maxy, points[i][1]);
+    minx = Math.min(minx, points[i].x);
+    maxx = Math.max(maxx, points[i].x);
+    miny = Math.min(miny, points[i].y);
+    maxy = Math.max(maxy, points[i].y);
   }
 
   const marginx = (maxx-minx)*0.05;
@@ -38,35 +41,51 @@ function drawPolyline(points: number[][]): void {
   miny -= marginy;
   maxy += marginy;
 
-  function scale(x: number, len: number, min: number, max: number): number {
-    return len * (x - min) / (max-min) ;
-  }
-
   minx = Math.floor(minx);
   miny = Math.floor(miny);
   maxx = Math.ceil(maxx);
   maxy = Math.ceil(maxy);
 
-  for (const p of points) {
-    p[0] = scale(p[0], w, minx, maxx);
-    p[1] = h - scale(p[1], h, miny, maxy);
+  function scale(x: number, len: number, min: number, max: number): number {
+    return len * (x - min) / (max-min) ;
   }
 
+
+  function mapPoint(p: Point) {
+    return new Point(
+      scale(p.x, w, minx, maxx),
+      h - scale(p.y, h, miny, maxy)
+    );
+  }
+
+  var newMapping: PointMapping = {
+    original: points,
+    canvas: points.map(mapPoint)
+  };
+
   for (let i = 0; i+1 < points.length; i++) {
-    const a = points[i];
-    const b = points[i+1];
+    const a = newMapping.canvas[i];
+    const b = newMapping.canvas[i+1];
     ctx.beginPath();
-    ctx.moveTo(a[0], a[1]);
-    ctx.lineTo(b[0], b[1]);
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
     ctx.stroke();
   }
 
+  pointMapping = newMapping;
+  if (focusPoint !== null) {
+    ctx.beginPath();
+    const focusPointMapped = mapPoint(focusPoint);
+    ctx.font = "15px Arial";
+    ctx.fillText(focusPointTag, focusPointMapped.x, focusPointMapped.y);
+  }
+  
   canvasBottomLeftText.innerHTML = `(${minx}, ${miny})`;
   canvasTopRightText.innerHTML = `(${maxx},${maxy})`;
 }
 
-function parseTextAreaContent() {
-  const text = editor.getValue();
+async function parseTextAreaContent(): Promise<void> {
+  const text = await getEditorText();
   const numbers = [];
 
   for (const line of text.split('\n'))
@@ -84,25 +103,37 @@ function parseTextAreaContent() {
     return;
   }
 
-  const points = [];
+  const points: Point[] = [];
   for (let i = 0; i < numbers.length; i += 2) {
-    points.push([numbers[i], numbers[i+1]]);
+    points.push(new Point(numbers[i], numbers[i+1]));
   }
 
   drawPolyline(points);
 }
 
-function setDefaultAreaContent() {
-  const defaultTextAreaValue = "0 0\n0 7\n1 7\n1 6\n2 6\n2 7\n3 7\n3 5\n1 5\n1 4\n4 4\n4 7\n7 7\n7 6\n5 6\n5 5\n7 5\n7 4\n6 4\n6 3\n7 3\n7 1\n6 1\n6 2\n5 2\n5 0\n2 0\n2 1\n4 1\n4 3\n3 3\n3 2\n2 2\n2 3\n1 3\n1 0\n0 0\n";
-  editor.setValue(defaultTextAreaValue);
-}
-
-function registerListeners() {
+async function registerListeners() {
+  const editor = await getEditor();
   drawButton.onclick = parseTextAreaContent;
-  editor.addKeyMap({ "Ctrl-Enter": function (ed: Editor) {
-    parseTextAreaContent();
-  }});
+  addEditorKeyMap("Ctrl-Enter", parseTextAreaContent);
 }
 
-setDefaultAreaContent();
 registerListeners();
+
+canvas.onmousemove = ((ev: MouseEvent) => {
+  const mapping = pointMapping;
+  if (mapping.original.length == 0) return;
+  const mousePoint = new Point(ev.offsetX, ev.offsetY);
+  var minDist = mousePoint.dist(mapping.canvas[0]);
+  var closest = 0;
+  for (let i = 1; i < mapping.canvas.length; i += 1) {
+    const disti = mousePoint.dist(mapping.canvas[i]);
+    if (disti < minDist) {
+      minDist = disti;
+      closest = i;
+    }
+  }
+
+  focusPoint = mapping.original[closest];
+  focusPointTag = mapping.original[closest].toString();
+  drawPolyline(mapping.original);
+});

@@ -14,6 +14,7 @@ module.exports = {
   devtool: 'inline-source-map',
   optimization: {
     runtimeChunk: 'single',
+    usedExports: true,
     splitChunks: {
       cacheGroups: {
         vendor: {
