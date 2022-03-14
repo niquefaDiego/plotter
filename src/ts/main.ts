@@ -1,8 +1,9 @@
 import CodeMirror, { Editor } from "codemirror";
 import _ from 'lodash';
+import 'bootstrap';
 import 'codemirror/lib/codemirror.css';
 // import 'codemirror/theme/monokai.css'; // a dark theme to consider using in the future
-import '../css/main.css';
+import '../scss/main.scss';
 
 import 'codemirror/mode/javascript/javascript';
 
