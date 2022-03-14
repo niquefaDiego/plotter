@@ -6,7 +6,7 @@ module.exports = merge(common, {
   mode: 'development',
   watch: true,
   watchOptions: {
-    aggregateTimeout: 600,
+    aggregateTimeout: 100,
     ignored: /node_modules/,
     stdin: true,
     poll: 1000,
