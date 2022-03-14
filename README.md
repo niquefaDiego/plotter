@@ -15,12 +15,17 @@ Run in watch mode:
 npm run dev
 ```
 
+This will run the webpage in: http://localhost:5000
+And bunle analyzer in: http://localhost:8888
+
 # Production setup
 
 ```
 npm i
 npm run build
 ```
+
+The distribution files will be in the `dist/prod` folder.
 
 # Deployment
 

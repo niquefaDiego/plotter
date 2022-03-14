@@ -1,5 +1,13 @@
+const glob = require('glob-all');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const whitelister = require('purgecss-whitelister');
+
+// do not remove unused css from this file
+const cssWhitelist = whitelister('node_modules/codemirror/lib/codemirror.css');
 
 module.exports = {
   entry: './src/ts/main.ts',
@@ -29,13 +37,14 @@ module.exports = {
         exclude: '/node_modules'
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        include: [path.resolve(__dirname, "node_modules/codemirror")],
+        use: ["style-loader", "css-loader"]
       },
       {
         test:  /\.(scss)$/,
         use: [ {
-          loader: 'style-loader' // inject CSS to page
+          loader: MiniCssExtractPlugin.loader,  // TODO: use "style-loader" for development
         }, {
           loader: 'css-loader' // translates CSS into CommonJS modules
         }, {
@@ -68,7 +77,14 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js','css'],
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: 'src/html/index.html'
-  })],
+  plugins: [
+    new HtmlWebpackPlugin({template: 'src/html/index.html'}),
+    new MiniCssExtractPlugin({  // TODO: use "style-loader" for development (remove this line)
+      filename: "[name].css",
+    }),
+    new PurgeCSSPlugin({
+      paths: glob.sync(["src/html/*"], { nodir: true }),
+      safelist: cssWhitelist
+    }),
+  ],
 };
