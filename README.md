@@ -21,3 +21,9 @@ npm run dev
 npm i
 npm run build
 ```
+
+# Deployment
+
+Changes to main branch will be automatically deployed to:
+
+https://practical-engelbart-cbd04f.netlify.app
