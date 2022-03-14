@@ -12,7 +12,7 @@ module.exports = merge(common, {
     poll: 1000,
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist/dev'),
   },
 });

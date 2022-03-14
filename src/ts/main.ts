@@ -1,11 +1,6 @@
-import CodeMirror, { Editor } from "codemirror";
-import _ from 'lodash';
+import { Editor, fromTextArea } from "codemirror";
 import 'bootstrap';
-import 'codemirror/lib/codemirror.css';
-// import 'codemirror/theme/monokai.css'; // a dark theme to consider using in the future
 import '../scss/main.scss';
-
-import 'codemirror/mode/javascript/javascript';
 
 const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
 const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
@@ -13,7 +8,7 @@ const canvasBottomLeftText: HTMLParagraphElement = document.getElementById("canv
 const canvasTopRightText: HTMLParagraphElement = document.getElementById("canvasTopRightText") as HTMLParagraphElement;
 
 const _textArea: HTMLTextAreaElement = document.getElementById("editorTextArea") as HTMLTextAreaElement;
-const editor = CodeMirror.fromTextArea(_textArea, {
+const editor = fromTextArea(_textArea, {
   lineNumbers: true,
   mode: "javascript",
   // theme: "monokai",
