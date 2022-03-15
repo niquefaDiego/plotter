@@ -5,8 +5,6 @@ import { Point } from "./geometry/point";
 
 const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
 const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
-const canvasBottomLeftText: HTMLParagraphElement = document.getElementById("canvasBottomLeftText") as HTMLParagraphElement;
-const canvasTopRightText: HTMLParagraphElement = document.getElementById("canvasTopRightText") as HTMLParagraphElement;
 
 interface PointMapping {
   original: Point[];
@@ -41,15 +39,9 @@ function drawPolyline(points: Point[]): void {
   miny -= marginy;
   maxy += marginy;
 
-  minx = Math.floor(minx);
-  miny = Math.floor(miny);
-  maxx = Math.ceil(maxx);
-  maxy = Math.ceil(maxy);
-
   function scale(x: number, len: number, min: number, max: number): number {
     return len * (x - min) / (max-min) ;
   }
-
 
   function mapPoint(p: Point) {
     return new Point(
@@ -79,9 +71,6 @@ function drawPolyline(points: Point[]): void {
     ctx.font = "15px Arial";
     ctx.fillText(focusPointTag, focusPointMapped.x, focusPointMapped.y);
   }
-  
-  canvasBottomLeftText.innerHTML = `(${minx}, ${miny})`;
-  canvasTopRightText.innerHTML = `(${maxx},${maxy})`;
 }
 
 async function parseTextAreaContent(): Promise<void> {
@@ -133,7 +122,21 @@ canvas.onmousemove = ((ev: MouseEvent) => {
     }
   }
 
-  focusPoint = mapping.original[closest];
-  focusPointTag = mapping.original[closest].toString();
-  drawPolyline(mapping.original);
+  if (minDist < (canvas.width + canvas.height) * 0.02) {
+    focusPoint = mapping.original[closest];
+    focusPointTag = mapping.original[closest].toString();
+    drawPolyline(mapping.original);
+  } else if (focusPoint !== null) {
+    focusPoint = null;
+    focusPointTag = "";
+    drawPolyline(mapping.original);
+  }
 });
+
+canvas.onmouseleave = () => {
+  if (focusPoint !== null) {
+    focusPoint = null;
+    focusPointTag = "";
+    drawPolyline(pointMapping.original);
+  }
+}
