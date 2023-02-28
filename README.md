@@ -1,6 +1,14 @@
 # Plotter
 
-I'll try to make a tool to easily plot geometric figures, starting with polygons.
+Tool to plot geometric figures into a canvas.
+
+Features:
+- Option to convert the drawn canvas it into PNG.
+
+# Dependencies
+
+- `node 18.14.2`
+- `npm 9.5.0`
 
 # Development setup
 
