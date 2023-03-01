@@ -1,3 +1,3 @@
 
 export { Parser } from "./parser";
-export { PolylineParser } from "./polyline-parser";g
+export { PolylineParser } from "./polyline-parser";

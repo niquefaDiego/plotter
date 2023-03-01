@@ -17,12 +17,9 @@ export class Polyline implements Shape {
         return this._boundingRect;
     }
 
-    public scaleAndTranslate(from: BoundingRect, to: BoundingRect): Polyline {
-        return new Polyline(
-            this._points.map(
-                p => GeoUtils.scaleAndTranslate(p, from, to)
-            )
-        );
+    public scaleAndTranslate(from: BoundingRect, to: BoundingRect): void {
+        for (let i = 0; i < this._points.length; i += 1)
+            this._points[i] = GeoUtils.scaleAndTranslate(this._points[i], from, to);
     }
 
     public countPoints(): number {

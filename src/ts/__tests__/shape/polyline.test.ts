@@ -26,11 +26,11 @@ test("Polyline.constructor(Array<Point>)", () => {
 
 
 test("Polyline.scaleAndTranslate()", () => {
-    const p0 = (new Polyline([new Point(13, 14), new Point(12, 19), new Point(7, 29)]))
-        .scaleAndTranslate(
-            BoundingRect.FromCoords(10, 5, 20, 30),
-            BoundingRect.FromCoords(100, 50, 200, 300)
-        );
+    const p0 = new Polyline([new Point(13, 14), new Point(12, 19), new Point(7, 29)]);
+    p0.scaleAndTranslate(
+        BoundingRect.FromCoords(10, 5, 20, 30),
+        BoundingRect.FromCoords(100, 50, 200, 300)
+    );
     expect(p0.countPoints()).toEqual(3);
     expect(p0.getPoint(0).x()).toBeCloseTo(130, 12);
     expect(p0.getPoint(0).y()).toBeCloseTo(140, 12);
