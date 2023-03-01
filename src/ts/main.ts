@@ -1,9 +1,10 @@
 import 'bootstrap';
 import '../scss/main.scss';
 import { addEditorKeyMap, getEditor, getEditorText } from './editor';
-import { Point } from "./geometry/point";
+import { Point } from "./geo/point";
 
 const drawButton: HTMLButtonElement = document.getElementById("drawButton") as HTMLButtonElement;
+const downloadImageButton: HTMLButtonElement = document.getElementById("downloadImageButton") as HTMLButtonElement;
 const canvas: HTMLCanvasElement = document.getElementById("plotCanvas") as HTMLCanvasElement;
 
 interface PointMapping {
@@ -75,7 +76,7 @@ function drawPolyline(points: Point[]): void {
 
 async function parseTextAreaContent(): Promise<void> {
   const text = await getEditorText();
-  const numbers = [];
+  const numbers: Array<number> = [];
 
   for (const line of text.split('\n'))
     for (const token of line.split(' '))
@@ -100,9 +101,21 @@ async function parseTextAreaContent(): Promise<void> {
   drawPolyline(points);
 }
 
+function downloadImage(): void {
+  const image: HTMLImageElement = new Image();
+  image.src = canvas.toDataURL();
+  let imageContainer = document.getElementById("imageContainer")!;
+  for (const child of imageContainer.children) {
+    imageContainer.removeChild(child);
+  }
+  imageContainer.appendChild(image);
+  console.log("Done!");
+}
+
 async function registerListeners() {
   const editor = await getEditor();
   drawButton.onclick = parseTextAreaContent;
+  downloadImageButton.onclick = downloadImage;
   addEditorKeyMap("Ctrl-Enter", parseTextAreaContent);
 }
 
