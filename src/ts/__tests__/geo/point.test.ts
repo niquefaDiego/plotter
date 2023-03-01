@@ -1,4 +1,4 @@
-import { Point } from "../../geo/point";
+import { Point } from "../../geo";
 
 test("Point.dist", () => {
   expect(new Point(1, 2).dist(new Point(2, 2))).toBeCloseTo(1, 12);

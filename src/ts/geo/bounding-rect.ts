@@ -1,4 +1,8 @@
+import { Point } from "./point";
 
+/**
+ * Immutable class representing a rectangle with sides parallel to the X and Y axis.
+ */
 export class BoundingRect {
     private _sx: number;
     private _sy: number;
@@ -10,41 +14,59 @@ export class BoundingRect {
     public bx(): number { return this._bx; }
     public by(): number { return this._by; }
 
+    public width(): number { return this._bx - this._sx; }
+    public height(): number { return this._by - this._sy; }
+
     public toString(): string {
       return `BoundingRect: (${this._sx},${this._sy}) -> (${this._bx}, ${this._by})`;
     }
 
-    public static merge(a: BoundingRect, b: BoundingRect): BoundingRect
+    public merge(other: BoundingRect): BoundingRect
     {
         return new BoundingRect(
-            Math.min(a.sx(), b.sx()),
-            Math.min(a.sy(), b.sy()),
-            Math.max(a.bx(), b.bx()),
-            Math.max(a.by(), b.by())
+            Math.min(this._sx, other._sx),
+            Math.min(this._sy, other._sy),
+            Math.max(this._bx, other._bx),
+            Math.max(this._by, other._by)
         );
     }
-  
-    public constructor(x1: number, y1: number, x2: number, y2: number )
+
+    public extendToCover(p: Point): BoundingRect {
+      return new BoundingRect(
+        Math.min(this._sx, p.x()),
+        Math.min(this._sy, p.y()),
+        Math.max(this._bx, p.x()),
+        Math.max(this._by, p.y())
+      );
+    }
+ 
+    public static FromPoint(point: Point): BoundingRect {
+      return new BoundingRect(point.x(), point.y(), point.x(), point.y());
+    }
+
+    public static FromCoords(x1: number, y1: number, x2: number, y2: number): BoundingRect
     {
-      if (x1 < x2)
+      let sx: number = x1;
+      let sy: number = y1;
+      let bx: number = x2;
+      let by: number = y2;
+      if (x1 > x2)
       {
-        this._sx = x1;
-        this._bx = x2;
+        sx = x2;
+        bx = x1;
       }
-      else
+      if (y1 > y2)
       {
-        this._sx = x2;
-        this._bx = x1;
+        sy = y2;
+        by = y1;
       }
-      if (y1 < y2)
-      {
-        this._sy = y1;
-        this._by = y2;
-      }
-      else
-      {
-        this._sy = y2;
-        this._by = y1;
-      }
+      return new BoundingRect(sx, sy, bx, by);
+    }
+
+    private constructor(sx: number, sy: number, bx: number, by: number) {
+      this._sx = sx;
+      this._sy = sy;
+      this._bx = bx;
+      this._by = by;
     }
   }

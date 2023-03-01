@@ -22,15 +22,15 @@ function drawPolyline(points: Point[]): void {
   const ctx = canvas.getContext("2d")!;
   ctx.clearRect(0, 0, w, h);
   
-  let minx = points[0].x;
-  let maxx = points[0].x;
-  let miny = points[0].y;
-  let maxy = points[0].y;
+  let minx = points[0].x();
+  let maxx = points[0].x();
+  let miny = points[0].y();
+  let maxy = points[0].y();
   for (let i = 1; i < points.length; i++) {
-    minx = Math.min(minx, points[i].x);
-    maxx = Math.max(maxx, points[i].x);
-    miny = Math.min(miny, points[i].y);
-    maxy = Math.max(maxy, points[i].y);
+    minx = Math.min(minx, points[i].x());
+    maxx = Math.max(maxx, points[i].x());
+    miny = Math.min(miny, points[i].y());
+    maxy = Math.max(maxy, points[i].y());
   }
 
   const marginx = (maxx-minx)*0.05;
@@ -46,8 +46,8 @@ function drawPolyline(points: Point[]): void {
 
   function mapPoint(p: Point) {
     return new Point(
-      scale(p.x, w, minx, maxx),
-      h - scale(p.y, h, miny, maxy)
+      scale(p.x(), w, minx, maxx),
+      h - scale(p.y(), h, miny, maxy)
     );
   }
 
@@ -60,8 +60,8 @@ function drawPolyline(points: Point[]): void {
     const a = newMapping.canvas[i];
     const b = newMapping.canvas[i+1];
     ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
+    ctx.moveTo(a.x(), a.y());
+    ctx.lineTo(b.x(), b.y());
     ctx.stroke();
   }
 
@@ -70,7 +70,7 @@ function drawPolyline(points: Point[]): void {
     ctx.beginPath();
     const focusPointMapped = mapPoint(focusPoint);
     ctx.font = "15px Arial";
-    ctx.fillText(focusPointTag, focusPointMapped.x, focusPointMapped.y);
+    ctx.fillText(focusPointTag, focusPointMapped.x(), focusPointMapped.y());
   }
 }
 
