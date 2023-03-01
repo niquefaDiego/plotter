@@ -35,6 +35,22 @@ npm run build
 
 The distribution files will be in the `dist/prod` folder.
 
+# Contributing guidelines
+
+Respect the following file hierarchy in the `src/` folder:
+
+```
+|- ts/
+|  |- __tests__/*.ts
+|  |- *.ts
+|  |- parser/*.ts
+|  |- shape/*.ts
+|  |- geo/*.ts
+|- html/*
+```
+
+A typescript file can only reference code from another typescript file lower in the hierarchy, this prevents cyclic references. For example, `ts/parser/polyline.ts` references `ts/geo/point.ts`, but the other way around violates the hierarchy above since `ts/parser/*ts` appears before `ts/geo/*.ts`
+
 # Deployment
 
 Changes to main branch will be automatically deployed to: https://niquefa-plotter.netlify.app

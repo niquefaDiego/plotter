@@ -1,4 +1,4 @@
-import { BoundingRect } from "../../geo";
+import { BoundingRect } from "../geo";
 
 export interface Shape {
     getMinimumBoundingRect(): BoundingRect;

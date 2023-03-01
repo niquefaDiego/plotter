@@ -1,4 +1,4 @@
-import { BoundingRect, Point, Utils as GeoUtils } from "../../geo";
+import { BoundingRect, Point, Utils as GeoUtils } from "../geo";
 import { Shape } from "./shape";
 
 export class Polyline implements Shape {

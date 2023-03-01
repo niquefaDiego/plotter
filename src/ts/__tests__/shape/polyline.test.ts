@@ -1,5 +1,5 @@
 import { BoundingRect, Point } from "../../geo";
-import { Polyline } from "../../plotter/shape";
+import { Polyline } from "../../shape";
 
 test("Polyline.constructor(Array<Point>)", () => {
     const p0 = new Polyline([new Point(3, 4)]);
