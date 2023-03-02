@@ -43,7 +43,9 @@ Respect the following file hierarchy in the `src/` folder:
 |- ts/
 |  |- __tests__/*.ts
 |  |- *.ts
-|  |- parser/*.ts, canvas-drawer/*.ts
+|  |- parser/*.ts
+|  |- drawing/*.ts
+|  |- canvas-drawer/*.ts
 |  |- drawer/*.ts
 |  |- shape/*.ts
 |  |- geo/*.ts

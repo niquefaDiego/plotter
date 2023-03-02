@@ -1,0 +1,1 @@
+export { CanvasDrawerFactory } from "./factory";

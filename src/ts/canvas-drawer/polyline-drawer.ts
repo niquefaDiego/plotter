@@ -1,5 +1,5 @@
 import { Polyline } from "../shape";
-import { Drawer } from "../drawable";
+import { Drawer } from "../drawer";
 
 export class CanvasPolylineDrawer implements Drawer<Polyline> {
     private _canvas: HTMLCanvasElement;

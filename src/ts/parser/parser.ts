@@ -1,7 +1,6 @@
-import { DrawableShape } from "../drawable";
-import { Shape } from "../shape";
+import { Drawing } from "../drawing";
 
 export interface Parser
 {
-    parse(text: string): Array<DrawableShape<Shape>>;
+    parse(text: string, drawing: Drawing): void;
 }
