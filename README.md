@@ -43,12 +43,12 @@ Respect the following file hierarchy in the `src/` folder:
 |- ts/
 |  |- __tests__/*.ts
 |  |- *.ts
-|  |- parser/*.ts
-|  |- drawing/*.ts
-|  |- canvas-drawer/*.ts
-|  |- drawer/*.ts
-|  |- shape/*.ts
-|  |- geo/*.ts
+|  |- drawing-parser/*.ts // parses shapes to be drawn from text into a Drawing 
+|  |- drawing/*.ts // combines shapes and drawers to make a composite drawing 
+|  |- canvas-drawer/*.ts // implemention of drawers that draw shapes in canvas
+|  |- drawer/*.ts // inteface for classes that can draw shapes
+|  |- shape/*.ts // geometric shapes with bounding rectangles
+|  |- geo/*.ts // geometric utilities
 |- html/*
 ```
 

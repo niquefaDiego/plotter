@@ -6,7 +6,10 @@ export class Polyline implements Shape {
     private _points: Array<Point>;
 
     public constructor(points: Array<Point>) {
-        // TODO: Throw if points.length == 0
+        if (points.length == 0) {
+            throw new Error("Polyline requires at least 1 point");
+        }
+
         this._boundingRect = BoundingRect.FromPoint(points[0]);
         for (let i = 1; i < points.length; i += 1)
             this._boundingRect = this._boundingRect.extendToCover(points[i]);

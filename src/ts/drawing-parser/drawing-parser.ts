@@ -1,6 +1,6 @@
 import { Drawing } from "../drawing";
 
-export interface Parser
+export interface DrawingParser
 {
     parse(text: string, drawing: Drawing): void;
 }

@@ -34,17 +34,31 @@ class Drawing {
 
     public draw(drawingBoundingBox: BoundingRect) {
         if (this._shapesToDraw.length == 0) {
-            console.log("Nothing to draw");
             return;
         }
 
         var shapesBoundingBox: BoundingRect = this._shapesToDraw[0].getShape().getMinimumBoundingRect();
         for (let i = 0; i < this._shapesToDraw.length; i += 1) {
-            shapesBoundingBox = shapesBoundingBox.merge(this._shapesToDraw[1].getShape().getMinimumBoundingRect());
+            shapesBoundingBox = shapesBoundingBox.merge(this._shapesToDraw[i].getShape().getMinimumBoundingRect());
         }
 
         this._shapesToDraw.forEach(shape => shape.getShape().scaleAndTranslate(
             shapesBoundingBox,
+            drawingBoundingBox
+        ));
+
+        const marginx = (drawingBoundingBox.width())*0.05;
+        const marginy = (drawingBoundingBox.height())*0.05;
+
+        const drawingBoundBoxWithMargin = BoundingRect.FromCoords(
+            drawingBoundingBox.sx() - marginx,
+            drawingBoundingBox.sy() - marginy,
+            drawingBoundingBox.bx() + marginx,
+            drawingBoundingBox.by() + marginy
+        );
+
+        this._shapesToDraw.forEach(shape => shape.getShape().scaleAndTranslate(
+            drawingBoundBoxWithMargin,
             drawingBoundingBox
         ));
 
